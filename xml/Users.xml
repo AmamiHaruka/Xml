@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<users>
+<user>
+<account>root</account>
+<pw>123456</pw>
+<email>null</email>
+<sex>null</sex>
+<role_id>admin</role_id>
+<reg_tm>2015-5-6</reg_tm>
+</user>
+<user>
+<account>lili</account>
+<pw>111111</pw>
+<email>123@qq.com</email>
+<sex>female</sex>
+<role_id>user</role_id>
+<reg_id>2015-5-6</reg_id>
+</user>
+<user>
+<account>lili</account>
+<pw>111111</pw>
+<email>123@qq.com</email>
+<sex>female</sex>
+<role_id>user</role_id>
+<reg_id>2015-5-6</reg_id>
+</user>
+</users>
