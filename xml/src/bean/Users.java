@@ -5,51 +5,58 @@ public class Users {
  private String pw;
  private String email;
  private String sex;
- private String role_id;
- private String reg_tm;
- public Users(String account,String pw,String email,String sex,String role_id,String reg_tm){
+ private String roleID;
+ private String registerTime;
+ private String userLevel;
+ public String getUserLevel() {
+	return userLevel;
+}
+public void setUserLevel(String userLevel) {
+	this.userLevel = userLevel;
+}
+public Users(String account,String pw,String email,String sex,String userlevel,String role_id,String reg_tm){
 	 this.account=account;
 	 this.pw=pw;
 	 this.email=email;
 	 this.sex=sex;
-	 this.role_id=role_id;
-	 this.reg_tm=reg_tm;
+	 this.userLevel=userlevel;
+	 this.roleID=role_id;
+	 this.registerTime=reg_tm;
  }
-public String getAccount() {
-	return account;
-}
-public void setAccount(String account) {
-	this.account = account;
-}
-public String getPw() {
-	return pw;
-}
-public void setPw(String pw) {
-	this.pw = pw;
-}
-
-public String getEmail() {
-	return email;
-}
-public void setEmail(String email) {
-	this.email = email;
-}
-public String getSex() {
-	return sex;
-}
-public void setSex(String sex) {
-	this.sex = sex;
-}
-public String getRole_id() {
-	return role_id;
-}
-public void setRole_id(String role_id) {
-	this.role_id = role_id;
-}
-public String getReg_tm() {
-	return reg_tm;
-}
-public void setReg_tm(String reg_tm) {
-	this.reg_tm = reg_tm;
-}
+	public String getAccount() {
+		return account;
+	}
+	public void setAccount(String account) {
+		this.account = account;
+	}
+	public String getPw() {
+		return pw;
+	}
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public String getRoleID() {
+		return roleID;
+	}
+	public void setRoleID(String roleID) {
+		this.roleID = roleID;
+	}
+	public String getRegisterTime() {
+		return registerTime;
+	}
+	public void setRegisterTime(String registerTime) {
+		this.registerTime = registerTime;
+	}
 }
