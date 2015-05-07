@@ -19,5 +19,9 @@
 			<attribute name="owner.project.facets" value="jst.web.jstl"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/攀松/Workspaces/MyEclipse Professional 2014/Xml/WebRoot/WEB-INF/lib/saxon-9.x.jar"/>
+	<classpathentry kind="lib" path="C:/Users/攀松/Workspaces/MyEclipse Professional 2014/Xml/WebRoot/WEB-INF/lib/saxon-dom-9.x.jar"/>
+	<classpathentry kind="lib" path="C:/Users/攀松/Workspaces/MyEclipse Professional 2014/Xml/WebRoot/WEB-INF/lib/saxon-xpath-9.x.jar"/>
+	<classpathentry kind="lib" path="C:/Users/攀松/Workspaces/MyEclipse Professional 2014/Xml/WebRoot/WEB-INF/lib/saxon-xqj-9.x.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
