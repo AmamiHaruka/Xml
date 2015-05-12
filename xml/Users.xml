@@ -9,4 +9,13 @@
       <role_id>admin</role_id>
       <reg_tm>2015-5-6</reg_tm>
    </user>
+   <user>
+      <account>dps</account>
+      <pw>123456</pw>
+      <email>123@qq.com</email>
+      <sex>123@qq.com</sex>
+      <userlevel>A</userlevel>
+      <role_id>user</role_id>
+      <reg_id>2015-5-6</reg_id>
+   </user>
 </users>

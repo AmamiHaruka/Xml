@@ -26,7 +26,15 @@ import org.xml.sax.SAXException;
 import bean.Users;
 
 public class XmlDao {
-	public void CreateUser(Users Auser) throws ParserConfigurationException, SAXException, IOException, TransformerFactoryConfigurationError, TransformerException{
+	public Document initload(String url) throws SAXException, IOException, Exception{
+		Document document = null;
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        document = builder.parse(url);
+        document.normalize();
+        return document;
+	}
+	public void CreateUser(Users Auser) throws TransformerFactoryConfigurationError, Exception{
 		Element users = null;
 		Element user = null;
 		Element account = null;
@@ -36,9 +44,7 @@ public class XmlDao {
 		Element roleID = null;
 		Element registerTime =null;
 		Element userLevel = null;
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document doc = builder.parse("Users.xml");
+		Document doc = initload("Users.xml");
 		NodeList nl = doc.getElementsByTagName("users");
 		users =(Element)nl.item(0);
 		user = doc.createElement("user");
@@ -103,5 +109,30 @@ public class XmlDao {
 		return user;
 		
 	}
-	
+	public boolean ChangeUser(Users Auser) throws Exception{
+		try{
+			String name=Auser.getAccount();
+			
+			Document doc = initload("Users.xml");
+			NodeList nl = doc.getElementsByTagName("user");
+			for(int i =0;i<nl.getLength();i++){
+				String username = doc.getElementsByTagName("account").item(i).getFirstChild().getNodeValue();
+				if(username.equals(name)){
+					doc.getElementsByTagName("pw").item(i).getFirstChild().setNodeValue(Auser.getPw());
+					doc.getElementsByTagName("email").item(i).getFirstChild().setNodeValue(Auser.getEmail());
+					doc.getElementsByTagName("sex").item(i).getFirstChild().setNodeValue(Auser.getSex());
+					Transformer transformer =TransformerFactory.newInstance().newTransformer();
+					transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+					transformer.transform(new DOMSource(doc), new StreamResult(new File("./Users.xml")));
+				}
+					
+			}
+			return true;
+		}catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return false;
+        }
+		
+	}
 }
