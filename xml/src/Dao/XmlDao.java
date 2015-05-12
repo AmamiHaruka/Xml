@@ -85,11 +85,14 @@ public class XmlDao {
 				+ "where $x/account='"+ name+"'"+
 				" return $x";
 		XQResultSequence res = xqexpression.executeQuery(str);
-		res.next();
+		if(res.next()){
+			user=Domxml(res.getItemAsString(null));
+			return user;
+		}
+		  	return null;
 	
 		//System.out.println(res.getItemAsString(null));
-		user=Domxml(res.getItemAsString(null));
-		return user;
+		
 	}
 	private Users Domxml(String xmlstr) throws Exception {
 		Users user = new Users();
