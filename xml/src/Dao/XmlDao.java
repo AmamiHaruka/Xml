@@ -12,6 +12,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xquery.XQConnection;
+import javax.xml.xquery.XQDataSource;
+import javax.xml.xquery.XQException;
+import javax.xml.xquery.XQExpression;
+import javax.xml.xquery.XQResultSequence;
+
+import net.sf.saxon.xqj.SaxonXQDataSource;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -19,7 +26,15 @@ import org.xml.sax.SAXException;
 import bean.Users;
 
 public class XmlDao {
-	public void CreateUser(Users Auser) throws ParserConfigurationException, SAXException, IOException, TransformerFactoryConfigurationError, TransformerException{
+	public Document initload(String url) throws SAXException, IOException, Exception{
+		Document document = null;
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        document = builder.parse(url);
+        document.normalize();
+        return document;
+	}
+	public void CreateUser(Users Auser) throws TransformerFactoryConfigurationError, Exception{
 		Element users = null;
 		Element user = null;
 		Element account = null;
@@ -29,9 +44,7 @@ public class XmlDao {
 		Element roleID = null;
 		Element registerTime =null;
 		Element userLevel = null;
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document doc = builder.parse("Users.xml");
+		Document doc = initload("Users.xml");
 		NodeList nl = doc.getElementsByTagName("users");
 		users =(Element)nl.item(0);
 		user = doc.createElement("user");
@@ -61,6 +74,65 @@ public class XmlDao {
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.transform(new DOMSource(doc), new StreamResult(new File("./Users.xml")));
 		
+		
+	}
+	public Users FindUser(String name) throws Exception{
+		Users user = new Users();
+		XQDataSource xq = new SaxonXQDataSource();
+		XQConnection xqconnection = xq.getConnection();
+		XQExpression xqexpression = xqconnection.createExpression();
+		String str = "for $x in doc('./Users.xml')/users/user "
+				+ "where $x/account='"+ name+"'"+
+				" return $x";
+		XQResultSequence res = xqexpression.executeQuery(str);
+		res.next();
+	
+		//System.out.println(res.getItemAsString(null));
+		user=Domxml(res.getItemAsString(null));
+		return user;
+	}
+	private Users Domxml(String xmlstr) throws Exception {
+		Users user = new Users();
+		Element xuser = null;
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document doc = builder.parse(new java.io.ByteArrayInputStream(xmlstr.getBytes()));
+		NodeList nl = doc.getElementsByTagName("user");
+		xuser =(Element)nl.item(0);
+		user.setAccount(xuser.getElementsByTagName("account").item(0).getTextContent());
+		user.setPw(xuser.getElementsByTagName("pw").item(0).getTextContent());
+		user.setEmail(xuser.getElementsByTagName("email").item(0).getTextContent());
+		user.setSex(xuser.getElementsByTagName("sex").item(0).getTextContent());
+		user.setUserLevel(xuser.getElementsByTagName("userlevel").item(0).getTextContent());
+		user.setRoleID(xuser.getElementsByTagName("role_id").item(0).getTextContent());
+		user.setRegisterTime(xuser.getElementsByTagName("reg_id").item(0).getTextContent());
+		return user;
+		
+	}
+	public boolean ChangeUser(Users Auser) throws Exception{
+		try{
+			String name=Auser.getAccount();
+			
+			Document doc = initload("Users.xml");
+			NodeList nl = doc.getElementsByTagName("user");
+			for(int i =0;i<nl.getLength();i++){
+				String username = doc.getElementsByTagName("account").item(i).getFirstChild().getNodeValue();
+				if(username.equals(name)){
+					doc.getElementsByTagName("pw").item(i).getFirstChild().setNodeValue(Auser.getPw());
+					doc.getElementsByTagName("email").item(i).getFirstChild().setNodeValue(Auser.getEmail());
+					doc.getElementsByTagName("sex").item(i).getFirstChild().setNodeValue(Auser.getSex());
+					Transformer transformer =TransformerFactory.newInstance().newTransformer();
+					transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+					transformer.transform(new DOMSource(doc), new StreamResult(new File("./Users.xml")));
+				}
+					
+			}
+			return true;
+		}catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return false;
+        }
 		
 	}
 }

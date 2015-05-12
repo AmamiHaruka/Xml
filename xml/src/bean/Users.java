@@ -1,6 +1,9 @@
 package bean;
 
 public class Users {
+	public Users(){
+		
+	}
  private String account;
  private String pw;
  private String email;
