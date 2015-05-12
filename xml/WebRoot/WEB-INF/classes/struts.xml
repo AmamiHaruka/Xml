@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="welcome" extends="struts-default" namespace="/welcome">
+		<action name="toRegister" class="action.WelcomeAction" method="toRegister">
+			<result name="toRegister">/register.jsp</result>
+		</action>
+		<action name="register" class="action.WelcomeAction" method="register">
+			<result name="register" type="redirect">/main.jsp</result>
+		</action>
+		<action name="login" class="action.WelcomeAction" method="login">
+			<result name="login" type="redirect">/main.jsp</result>
+			
+		</action>
+		<action name="loginVerify" class="action.WelcomeAction" method="loginVerify"></action>
+		<action name="sightseer" class="action.WelcomeAction" method="sightseer">
+			<result name="sightseer">/main.jsp</result>
+		</action>
+		<action name="nameVerify" class="action.WelcomeAction" method="nameVerify">
+	</action>
+		<action name="repasswordVerify" class="action.WelcomeAction" method="repasswordVerify"></action>
+		<action name="pwdVerify" class="action.WelcomeAction" method="pwdVerify"></action>
+	</package>
+</struts>    
