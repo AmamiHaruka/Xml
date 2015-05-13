@@ -44,7 +44,7 @@ public class XmlDao {
 		Element roleID = null;
 		Element registerTime =null;
 		Element userLevel = null;
-		Document doc = initload("Users.xml");
+		Document doc = initload("C://Users//UltrA//Workspaces//MyEclipse Professional 2014//Web//WebRoot//xml//Users.xml");
 		NodeList nl = doc.getElementsByTagName("users");
 		users =(Element)nl.item(0);
 		user = doc.createElement("user");
@@ -72,7 +72,7 @@ public class XmlDao {
 		users.appendChild(user);
 		Transformer transformer =TransformerFactory.newInstance().newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.transform(new DOMSource(doc), new StreamResult(new File("./Users.xml")));
+		transformer.transform(new DOMSource(doc), new StreamResult(new File("C://Users//UltrA//Workspaces//MyEclipse Professional 2014//Web//WebRoot//xml//Users.xml")));
 		
 		
 	}
@@ -81,16 +81,24 @@ public class XmlDao {
 		XQDataSource xq = new SaxonXQDataSource();
 		XQConnection xqconnection = xq.getConnection();
 		XQExpression xqexpression = xqconnection.createExpression();
-		String str = "for $x in doc('./Users.xml')/users/user "
+		String str = "for $x in doc('C://Users//UltrA//Workspaces//MyEclipse Professional 2014//Web//WebRoot//xml//Users.xml')/users/user "
 				+ "where $x/account='"+ name+"'"+
 				" return $x";
 		XQResultSequence res = xqexpression.executeQuery(str);
+<<<<<<< HEAD
 		if(res.next()){
 			user=Domxml(res.getItemAsString(null));
 			return user;
 		}
 		  	return null;
 	
+=======
+		if(res.next()){user=Domxml(res.getItemAsString(null));
+		return user;}
+		else{
+			return null;
+		}
+>>>>>>> master
 		//System.out.println(res.getItemAsString(null));
 		
 	}
