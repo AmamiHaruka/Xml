@@ -26,6 +26,7 @@ import org.xml.sax.SAXException;
 import bean.Users;
 
 public class XmlDao {
+	String url="C://Users//UltrA//Workspaces//MyEclipse Professional 2014//Web//WebRoot//xml//Users.xml";
 	public Document initload(String url) throws SAXException, IOException, Exception{
 		Document document = null;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -44,7 +45,7 @@ public class XmlDao {
 		Element roleID = null;
 		Element registerTime =null;
 		Element userLevel = null;
-		Document doc = initload("C://Users//UltrA//Workspaces//MyEclipse Professional 2014//Web//WebRoot//xml//Users.xml");
+		Document doc = initload(url);
 		NodeList nl = doc.getElementsByTagName("users");
 		users =(Element)nl.item(0);
 		user = doc.createElement("user");
@@ -72,7 +73,7 @@ public class XmlDao {
 		users.appendChild(user);
 		Transformer transformer =TransformerFactory.newInstance().newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.transform(new DOMSource(doc), new StreamResult(new File("C://Users//UltrA//Workspaces//MyEclipse Professional 2014//Web//WebRoot//xml//Users.xml")));
+		transformer.transform(new DOMSource(doc), new StreamResult(new File(url)));
 		
 		
 	}
@@ -81,12 +82,14 @@ public class XmlDao {
 		XQDataSource xq = new SaxonXQDataSource();
 		XQConnection xqconnection = xq.getConnection();
 		XQExpression xqexpression = xqconnection.createExpression();
-		String str = "for $x in doc('C://Users//UltrA//Workspaces//MyEclipse Professional 2014//Web//WebRoot//xml//Users.xml')/users/user "
+		String str = "for $x in doc('"+url+"')/users/user "
 				+ "where $x/account='"+ name+"'"+
 				" return $x";
 		XQResultSequence res = xqexpression.executeQuery(str);
 		if(res.next()){user=Domxml(res.getItemAsString(null));
-		return user;}
+		System.out.println(System.getProperty("user.dir"));
+		return user;
+		}
 		else{
 			return null;
 		}
@@ -115,7 +118,7 @@ public class XmlDao {
 		try{
 			String name=Auser.getAccount();
 			
-			Document doc = initload("Users.xml");
+			Document doc = initload(url);
 			NodeList nl = doc.getElementsByTagName("user");
 			for(int i =0;i<nl.getLength();i++){
 				String username = doc.getElementsByTagName("account").item(i).getFirstChild().getNodeValue();
@@ -125,7 +128,7 @@ public class XmlDao {
 					doc.getElementsByTagName("sex").item(i).getFirstChild().setNodeValue(Auser.getSex());
 					Transformer transformer =TransformerFactory.newInstance().newTransformer();
 					transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-					transformer.transform(new DOMSource(doc), new StreamResult(new File("./Users.xml")));
+					transformer.transform(new DOMSource(doc), new StreamResult(new File(url)));
 				}
 					
 			}

@@ -52,6 +52,7 @@ public class WelcomeAction extends ActionSupport {
 	public String login() throws IOException{
 		ActionContext actionContext=ActionContext.getContext();
 		Map<String, Object> session=actionContext.getSession();
+		System.out.println("username:"+username);
 		session.put("username", username);
 		
 		return "login";
@@ -82,11 +83,11 @@ public class WelcomeAction extends ActionSupport {
 		return null;
 	}
 	public String sightseer(){
-		System.out.println(username);
 		return "sightseer";
 	}
 	public String nameVerify() throws Exception{
 		ServletResponse response= ServletActionContext.getResponse();
+		System.out.println(username);
 		XmlDao xml=new XmlDao();
 		try {
 			PrintWriter out=response.getWriter();
@@ -111,6 +112,7 @@ public class WelcomeAction extends ActionSupport {
 		ServletResponse response= ServletActionContext.getResponse();
 		ServletRequest request=ServletActionContext.getRequest();
 		repassword=request.getParameter("repassword");
+		System.out.println(password+"  "+repassword);
 		try {
 			PrintWriter out=response.getWriter();
 			if(repassword.equals(null)){
@@ -133,6 +135,7 @@ public class WelcomeAction extends ActionSupport {
 	}
 	public String pwdVerify(){
 		ServletResponse response= ServletActionContext.getResponse();
+		System.out.println(password);
 		try {
 			PrintWriter out=response.getWriter();
 			if(password.equals(null)){
