@@ -5,7 +5,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 <%@taglib uri="/struts-tags" prefix="s"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -83,7 +83,7 @@ function tijiao(){
      <div class="form-group">
      
   		<label for="email">邮箱</label>
-  		<input type="text" class="form-control" id="email" name="email" onblur="emailVerify()" value=<%=request.getAttribute("email") %>><span id="emailError">
+  		<input type="email" class="form-control" id="email" name="email" onblur="emailVerify()" value=<%=request.getAttribute("email") %>><span id="emailError">
   	</div>
   	<div class="form-group">
   	<input type="button" class="btn btn-primary" value="提交" onclick="tijiao()">

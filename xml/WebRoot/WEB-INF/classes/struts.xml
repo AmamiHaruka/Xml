@@ -3,7 +3,7 @@
 <struts>
 	<package name="welcome" extends="struts-default" namespace="/welcome">
 		<action name="toRegister" class="action.WelcomeAction" method="toRegister">
-			<result name="toRegister">/register.jsp</result>
+			<result name="toRegister">/Register.jsp</result>
 		</action>
 		<action name="register" class="action.WelcomeAction" method="register">
 			<result name="register" type="redirect">/main.jsp</result>

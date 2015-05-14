@@ -36,4 +36,22 @@
       <role_id>common</role_id>
       <reg_id>2015-05-14 15:52:18</reg_id>
    </user>
+   <user>
+      <account>111</account>
+      <pw>123</pw>
+      <email>123@qq.com</email>
+      <sex>male</sex>
+      <userlevel>F</userlevel>
+      <role_id>common</role_id>
+      <reg_id>2015-05-15 00:30:33</reg_id>
+   </user>
+   <user>
+      <account>1114</account>
+      <pw>1112</pw>
+      <email>11</email>
+      <sex>female</sex>
+      <userlevel>F</userlevel>
+      <role_id>common</role_id>
+      <reg_id>2015-05-15 00:32:56</reg_id>
+   </user>
 </users>

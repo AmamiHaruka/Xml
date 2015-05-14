@@ -4,7 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		verifyUserName();
 		VerifyPwd();
 		verifyPassword();
-		emailVeify();
+		emailVerify();
 			if(resultName==2&&resultRe==2&&resultPassword==2&&resultEmail==2){
 				$("#registerForm").submit();
 			
@@ -98,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <div class="form-group">
   <label for="email">邮箱</label>
-  <input type="text" class="form-control"  id="email" name="email" onblur="emailVerify()"><span id="emailError"></span>
+  <input type="email" class="form-control"  id="email" name="email" onblur="emailVerify()"><span id="emailError"></span>
   </div>
   <div class="form-group">
   <label for="sex">性别：    </label>
