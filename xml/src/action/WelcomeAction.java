@@ -14,7 +14,6 @@ import javax.xml.ws.Response;
 import net.sf.saxon.functions.Data;
 
 import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.interceptor.SessionAware;
 
 import Dao.XmlDao;
 import bean.Users;
@@ -22,13 +21,12 @@ import bean.Users;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class WelcomeAction extends ActionSupport implements SessionAware{
+public class WelcomeAction extends ActionSupport {
 	String username;
 	String password;
 	String repassword;
 	String email;
 	String sex;
-	Map<String,Object> session;
 	
 	public String register() throws TransformerFactoryConfigurationError, Exception{
 		XmlDao xml=new XmlDao();
@@ -42,8 +40,7 @@ public class WelcomeAction extends ActionSupport implements SessionAware{
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		user.setRegisterTime(df.format(new Date()));
 		xml.CreateUser(user);
-		session.put("username", username);
-		//System.out.println(user.toString());
+		System.out.println(user.toString());
 		
 		return "register";
 		
@@ -55,22 +52,103 @@ public class WelcomeAction extends ActionSupport implements SessionAware{
 	public String login() throws IOException{
 		ActionContext actionContext=ActionContext.getContext();
 		Map<String, Object> session=actionContext.getSession();
-		//System.out.println("username:"+username);
+		System.out.println("username:"+username);
 		session.put("username", username);
 		
 		return "login";
 
 	}
-	
-	/*
-	 * 游客登陆
-	 */
+	public String loginVerify() throws Exception{
+		ServletResponse response= ServletActionContext.getResponse();
+		XmlDao xml=new XmlDao();
+		try {
+			PrintWriter out=response.getWriter();
+			if(xml.FindUser(username)==null){
+				out.print("nouser");
+				return null;
+			}
+			else if(xml.FindUser(username).getPw().equals(password)){
+				System.out.println(xml.FindUser(username).getPw());
+				out.print("ok");
+				return null;
+			}else {
+				out.print("error");
+				return null;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 	public String sightseer(){
 		return "sightseer";
 	}
-	
-	
-	
+	public String nameVerify() throws Exception{
+		ServletResponse response= ServletActionContext.getResponse();
+		System.out.println(username);
+		XmlDao xml=new XmlDao();
+		try {
+			PrintWriter out=response.getWriter();
+			if(username==null){
+				out.print(1);
+				return null;
+			}else if(xml.FindUser(username)!=null){
+				out.print(0);
+				return null;
+			}else{
+				out.print(2);
+				return null;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	public String repasswordVerify(){
+		ServletResponse response= ServletActionContext.getResponse();
+		ServletRequest request=ServletActionContext.getRequest();
+		repassword=request.getParameter("repassword");
+		System.out.println(password+"  "+repassword);
+		try {
+			PrintWriter out=response.getWriter();
+			if(repassword.equals(null)){
+				out.print(0);
+				return null;
+			}
+			else if(password.equals(repassword)){
+				out.print(2);
+				return null;
+			} else{
+				out.print(3);
+				return null;
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public String pwdVerify(){
+		ServletResponse response= ServletActionContext.getResponse();
+		System.out.println(password);
+		try {
+			PrintWriter out=response.getWriter();
+			if(password.equals(null)){
+				out.print(0);
+			}else{
+				out.print(2);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	
 	public String getUsername() {
@@ -84,30 +162,6 @@ public class WelcomeAction extends ActionSupport implements SessionAware{
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	@Override
-	public void setSession(Map<String, Object> arg0) {
-		// TODO Auto-generated method stub
-		this.session=arg0;
-		
-	}
-	public String getRepassword() {
-		return repassword;
-	}
-	public void setRepassword(String repassword) {
-		this.repassword = repassword;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getSex() {
-		return sex;
-	}
-	public void setSex(String sex) {
-		this.sex = sex;
 	}
 	
 }

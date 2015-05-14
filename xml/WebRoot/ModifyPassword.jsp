@@ -34,20 +34,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       margin:0px auto;
     }
     </style>
-    <script type="text/javascript" src="javaScript/verify.js">
-    </script>
-   <script type="text/javascript">
-   function tijiao(){
-   		prePassword();
-		VerifyPwd();
-		verifyPassword();
-		
-			if(resultOringin==2&&resultRe==2&&resultPassword==2){
-				$("#modifyForm").submit();
-			
-			}
-   }
-   </script>
   </head>
   
   <body>
@@ -58,26 +44,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   <div class="panel-body">
    <fieldset style="width: 550px; margin:0px auto;">
-     <form class="form-horizontal" role="form" action="modify/passwordModify!modifyPassword.action" id="modifyForm">
+     <form class="form-horizontal" role="form">
     
      
      <div class="form-group">
      
   		<label for="passwordpre">原始密码</label>
-  		<input type="text" class="form-control"  id="passwordpre" name="passwordpre" onblur="prePassword()"><span id="preError"></span>
+  		<input type="text" class="form-control"  id="passwordpre" name="passwordpre">
   	</div>
   	<div class="form-group">
      
   		<label for="passwordpre">密码</label>
-  		<input type="text" class="form-control"  id="password" name="password" onblur="VerifyPwd('#passwordError')"><span id="passwordError"></span>
+  		<input type="text" class="form-control"  id="password " name="password ">
   	</div>
   	<div class="form-group">
      
   		<label for="passwordpre">再次输入密码</label>
-  		<input type="text" class="form-control"  id="repassword" name="repassword" onblur="verifyPassword()"><span id="repwdError"></span>
+  		<input type="text" class="form-control"  id="passwordre" name="passwordre">
   	</div>
   	<div class="form-group">
-  	<input type="button" class="btn btn-primary" onclick="tijiao()" value="提交">
+  	<button type="submit" class="btn btn-primary">提交</button>
   	</div>
     
      </form>
