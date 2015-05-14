@@ -12,14 +12,11 @@
 			<result name="login" type="redirect">/main.jsp</result>
 			
 		</action>
-		<action name="loginVerify" class="action.WelcomeAction" method="loginVerify"></action>
+		
 		<action name="sightseer" class="action.WelcomeAction" method="sightseer">
 			<result name="sightseer">/main.jsp</result>
 		</action>
-		<action name="nameVerify" class="action.WelcomeAction" method="nameVerify">
-	</action>
-		<action name="repasswordVerify" class="action.WelcomeAction" method="repasswordVerify"></action>
-		<action name="pwdVerify" class="action.WelcomeAction" method="pwdVerify"></action>
+		
 	</package>
 	<package name="modify" extends="struts-default" namespace="/modify">
 		<interceptors>
@@ -30,11 +27,25 @@
 		<result name="login">/index.jsp</result>
 		<result name="toModify">/modify.jsp</result>
 		<result name="toModifyPassword">/ModifyPassword.jsp</result>
+		<result name="infosuccess" type="redirect">/main.jsp</result>
 		<interceptor-ref name="authentication"></interceptor-ref>
 		<interceptor-ref name="defaultStack"></interceptor-ref>
 		</action>
 		
+		<action name="passwordModify" class="action.PasswordModifyAction">
+			<result name="passwordSuccess">/main.jsp</result>
+			<interceptor-ref name="authentication"></interceptor-ref>
+		<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
 		
+	</package>
+	<package name="verify" extends="struts-default" namespace="/verify">
+		<action name="emailVerify" class="action.VerifyAction" method="emailVerify"></action>
+		<action name="loginVerify" class="action.VerifyAction" method="loginVerify"></action>
+		<action name="preVerify" class="action.VerifyAction" method="preVerify"></action>
+		<action name="nameVerify" class="action.VerifyAction" method="nameVerify"></action>
+		<action name="repasswordVerify" class="action.VerifyAction" method="repasswordVerify"></action>
+		<action name="pwdVerify" class="action.VerifyAction" method="pwdVerify"></action>
 	</package>
 	
 </struts>    
