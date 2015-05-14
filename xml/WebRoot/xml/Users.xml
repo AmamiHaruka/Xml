@@ -18,4 +18,22 @@
       <role_id>user</role_id>
       <reg_id>2015-5-6</reg_id>
    </user>
+   <user>
+      <account>nanshen</account>
+      <pw>doubi</pw>
+      <email/>
+      <sex/>
+      <userlevel>F</userlevel>
+      <role_id>common</role_id>
+      <reg_id>2015-05-12 20:28:45</reg_id>
+   </user>
+   <user>
+      <account>shabianshen</account>
+      <pw>123</pw>
+      <email/>
+      <sex/>
+      <userlevel>F</userlevel>
+      <role_id>common</role_id>
+      <reg_id>2015-05-13 13:19:48</reg_id>
+   </user>
 </users>
