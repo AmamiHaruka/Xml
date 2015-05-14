@@ -86,22 +86,11 @@ public class XmlDao {
 				+ "where $x/account='"+ name+"'"+
 				" return $x";
 		XQResultSequence res = xqexpression.executeQuery(str);
-<<<<<<< HEAD
 		if(res.next()){
 			user=Domxml(res.getItemAsString(null));
 			return user;
 		}
 		  	return null;
-	
-=======
-		if(res.next()){user=Domxml(res.getItemAsString(null));
-		System.out.println(System.getProperty("user.dir"));
-		return user;
-		}
-		else{
-			return null;
-		}
->>>>>>> master
 		//System.out.println(res.getItemAsString(null));
 		
 	}
