@@ -30,7 +30,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     
      </style>
-     <script type="text/javascript" src="javaScript/register.js"></script>
+     <script type="text/javascript" src="javaScript/verify.js">
+     
+     </script>
+     <script>
+     function tijiao(){
+		verifyUserName();
+		VerifyPwd();
+		verifyPassword();
+		emailVeify();
+			if(resultName==2&&resultRe==2&&resultPassword==2&&resultEmail==2){
+				$("#registerForm").submit();
+			
+			}
+	}</script>
   </head>
   
   <body>
@@ -74,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   <div class="form-group">  
   <label for="password">密码</label>
-  <input type="password" class="form-control" onblur="VerifyPwd()" placeholder="请输入密码" name="password" id="password">
+  <input type="password" class="form-control" onblur="VerifyPwd('#pwdError')" placeholder="请输入密码" name="password" id="password">
   <span id="pwdError"></span>
   </div>
   <div class="form-group">
@@ -85,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <div class="form-group">
   <label for="email">邮箱</label>
-  <input type="text" class="form-control"  id="email" name="email">
+  <input type="text" class="form-control"  id="email" name="email" onblur="emailVerify()"><span id="emailError"></span>
   </div>
   <div class="form-group">
   <label for="sex">性别：    </label>
@@ -95,7 +108,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   <br>
   <div class="form">
-  <button type="button" class="btn btn-primary" onclick="submit()">注册</button>
+  <input type="button" class="btn btn-primary" onclick="tijiao()" value="注册">
   </div>
   </form>
   </fieldset>

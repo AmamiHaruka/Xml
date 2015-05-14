@@ -9,12 +9,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
 import Dao.XmlDao;
@@ -22,13 +24,14 @@ import bean.Users;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class ModifyAction extends ActionSupport implements SessionAware{
+public class ModifyAction extends ActionSupport implements SessionAware,RequestAware {
 	String username;
 	String email;
 	String sex;
 	String photoPath;
 	File photo;
 	Map session;
+	Map request;
 	@Override
 	public String execute() throws Exception {
 		// TODO Auto-generated method stub
@@ -46,6 +49,20 @@ public class ModifyAction extends ActionSupport implements SessionAware{
 	}
 	public String toModifyPassword(){
 		return "toModifyPassword";
+	}
+	public String modifyInfo() throws Exception{
+		XmlDao xml=new XmlDao();
+		Users user=xml.FindUser((String)session.get("username"));
+	
+		user.setEmail(email);
+		user.setSex(sex);
+		xml.ChangeUser(user);
+		return "infosuccess";
+	}
+	public String modifyPassword(){
+		
+		return "infosuccess";
+		
 	}
 	
 	public String upload(){
@@ -92,4 +109,28 @@ public class ModifyAction extends ActionSupport implements SessionAware{
 		// TODO Auto-generated method stub
 		this.session=arg0;
 	}
+	@Override
+	public void setRequest(Map<String, Object> arg0) {
+		// TODO Auto-generated method stub
+		this.request=arg0;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	
 }
