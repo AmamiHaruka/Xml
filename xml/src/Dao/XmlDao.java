@@ -1,6 +1,8 @@
 package Dao;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.crypto.dsig.Transform;
 import javax.xml.parsers.*;
@@ -139,29 +141,34 @@ public class XmlDao {
         }
 		
 	}
-	public void Publishtopic(Topic Atopic) throws SAXException, IOException, Exception{
+	public void Publishtopic(Topic Atopic,String Aid) throws SAXException, IOException, Exception{
 		Element topics = null;
 		Element topic = null;
 		Element author = null;
 		Element data = null;
-		Element theme = null;
+		Element id = null;
+		Element title = null;
 		Element content = null;
 		Element replynum = null;
 		Element excellent = null;
 		Element top = null;
-		Document doc = initload("./Topic.xml");
+		String Topicurl = "./Topic"+Aid+".xml";
+		Document doc = initload(Topicurl);
 		NodeList nl = doc.getElementsByTagName("topics");
 		topics = (Element)nl.item(0);
 		topic = doc.createElement("topic");
+		id = doc.createElement("id");
+		id.appendChild(doc.createTextNode(Atopic.getId()));
+		topic.appendChild(id);
+		title = doc.createElement("title");
+		title.appendChild(doc.createTextNode(Atopic.getTitle()));
+		topic.appendChild(title);
 		author = doc.createElement("author");
 		author.appendChild(doc.createTextNode(Atopic.getAuthor()));
 		topic.appendChild(author);
 		data = doc.createElement("data");
-		data.appendChild(doc.createTextNode(Atopic.getData()));
+		data.appendChild(doc.createTextNode(Atopic.getPostTime()));
 		topic.appendChild(data);
-		theme = doc.createElement("theme");
-		theme.appendChild(doc.createTextNode(Atopic.getTheme()));
-		topic.appendChild(theme);
 		content = doc.createElement("content");
 		content.appendChild(doc.createTextNode(Atopic.getContent()));
 		topic.appendChild(content);
@@ -177,9 +184,99 @@ public class XmlDao {
 		topics.appendChild(topic);
 		Transformer transformer =TransformerFactory.newInstance().newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.transform(new DOMSource(doc), new StreamResult(new File("./Topic.xml")));
+		transformer.transform(new DOMSource(doc), new StreamResult(new File(Topicurl)));
 		
 	}
-
+	// 获得选择主题的不同种类的帖子 themeid  为主题 编号， tpye 为帖子种类编号 0 代表普通贴 1代表置顶贴
+	public List<Topic> GetALLTopic(String themeid,String type) throws SAXException, IOException, Exception{
+		String Topicurl = "./Topic"+themeid+".xml";
+		Element xtopic = null;
+		List<Topic> list=new ArrayList<Topic>();
+		Document doc = initload(Topicurl);
+		NodeList nl = doc.getElementsByTagName("topic");
+		for(int i = 0 ;i<nl.getLength();i++){
+			Topic topic = new Topic();
+			xtopic = (Element)nl.item(i);
+			if(xtopic.getElementsByTagName("top").item(0).getTextContent().equals(type)){
+				topic.setId(xtopic.getElementsByTagName("id").item(0).getTextContent());
+				topic.setTitle(xtopic.getElementsByTagName("title").item(0).getTextContent());
+				topic.setAuthor(xtopic.getElementsByTagName("author").item(0).getTextContent());
+				topic.setPostTime(xtopic.getElementsByTagName("data").item(0).getTextContent());
+				topic.setContent(xtopic.getElementsByTagName("content").item(0).getTextContent());
+				topic.setReplynum(xtopic.getElementsByTagName("replynum").item(0).getTextContent());
+				topic.setExcellent(xtopic.getElementsByTagName("excellent").item(0).getTextContent());
+				topic.setTop(xtopic.getElementsByTagName("top").item(0).getTextContent());
+				list.add(topic);
+			}
+		}
+		return list;
+	}
+	// 对帖子进行置顶设置 themeid 为帖子所属主题编号 ， topicID 为 要设置帖子的 帖子ID Type 为操作类型 0为取消 1为设置1 operation 为操作种类 “top” 为置顶操作 “excellent”为加精操作
+	public boolean Settopic(String themeid,String topicID,String type,String operation) throws SAXException, IOException, Exception{
+		try{
+			String Topicurl = "./Topic"+themeid+".xml";
+			Document doc = initload(Topicurl);
+			NodeList nl = doc.getElementsByTagName("topic");
+			for(int i = 0;i<nl.getLength();i++){
+				if(doc.getElementsByTagName("id").item(i).getFirstChild().getNodeValue().equals(topicID)){
+					doc.getElementsByTagName(operation).item(i).getFirstChild().setNodeValue(type);
+					Transformer transformer =TransformerFactory.newInstance().newTransformer();
+					transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+					transformer.transform(new DOMSource(doc), new StreamResult(new File(Topicurl)));
+					
+				}
+			}
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+            System.out.println(e.getMessage());
+            return false;
+		}
+		
+	}
+	public boolean Deletetopic(String themeid ,String topicID) throws SAXException, IOException, Exception{
+		try{
+			String Topicurl = "./Topic"+themeid+".xml";
+			Document doc = initload(Topicurl);
+			NodeList nl = doc.getElementsByTagName("topic");
+			for(int i = 0;i<nl.getLength();i++){
+				if(doc.getElementsByTagName("id").item(i).getFirstChild().getNodeValue().equals(topicID)){
+					Node delnode = nl.item(i);
+					delnode.getParentNode().removeChild(delnode);
+					Transformer transformer =TransformerFactory.newInstance().newTransformer();
+					transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+					transformer.transform(new DOMSource(doc), new StreamResult(new File(Topicurl)));
+				}
+			}
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+            System.out.println(e.getMessage());
+            return false;
+		}
+	}
+	public boolean Addreplynum(String themeid,String topicID){
+		try{
+			String Topicurl = "./Topic"+themeid+".xml";
+			Document doc = initload(Topicurl);
+			NodeList nl = doc.getElementsByTagName("topic");
+			for(int i = 0;i<nl.getLength();i++){
+				if(doc.getElementsByTagName("id").item(i).getFirstChild().getNodeValue().equals(topicID)){
+					int count =Integer.parseInt(doc.getElementsByTagName("replynum").item(i).getFirstChild().getNodeValue());
+					count++;
+					doc.getElementsByTagName("replynum").item(i).getFirstChild().setNodeValue(count+"");
+					Transformer transformer =TransformerFactory.newInstance().newTransformer();
+					transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+					transformer.transform(new DOMSource(doc), new StreamResult(new File(Topicurl)));
+					
+				}
+			}
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+            System.out.println(e.getMessage());
+            return false;
+		}
+	}
 }
 
