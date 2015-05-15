@@ -3,8 +3,9 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+<%@taglib uri="/struts-tags" prefix="s"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -47,6 +48,15 @@ $(document).ready(function(){
   });
 });
 </script>
+<script type="text/javascript" src="javaScript/verify.js"></script>
+<script type="text/javascript">
+function tijiao(){
+	emailVerify();
+	if(resultEmail==2){
+		$("#modifyForm").submit();
+	}
+}
+</script>
   </head>
   
   <body>
@@ -56,21 +66,27 @@ $(document).ready(function(){
   </div>
   <div class="panel-body">
    <fieldset style="width: 550px; margin:0px auto;">
-     <form class="form-horizontal" role="form">
-    
+     <form class="form-horizontal"  action="modify/personModify!modifyInfo.action" id="modifyForm">
      <div class="form-group">
+     
      <label for="sex">性别</label>
-     <input type="radio" name="iCheck" value="male">男
-     <input type="radio" name="iCheck" value="female">女
-    
+     
+   <s:if test="#request.sex=='male'">
+     <input type="radio" name="sex" value="male" checked>男
+     	<input type="radio" name="sex" value="female" >女
+    </s:if>
+    <s:elseif test="#request.sex=='female'">
+    	<input type="radio" name="sex" value="male" >男
+     	<input type="radio" name="sex" value="female" checked>女
+    </s:elseif>
      </div>
      <div class="form-group">
      
   		<label for="email">邮箱</label>
-  		<input type="text" class="form-control"  id="email" name="email">
+  		<input type="email" class="form-control" id="email" name="email" onblur="emailVerify()" value=<%=request.getAttribute("email") %>><span id="emailError">
   	</div>
   	<div class="form-group">
-  	<button type="submit" class="btn btn-primary">提交</button>
+  	<input type="button" class="btn btn-primary" value="提交" onclick="tijiao()">
   	</div>
     
      </form>

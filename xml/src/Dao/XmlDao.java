@@ -73,7 +73,7 @@ public class XmlDao {
 		users.appendChild(user);
 		Transformer transformer =TransformerFactory.newInstance().newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.transform(new DOMSource(doc), new StreamResult(new File(url)));
+		transformer.transform(new DOMSource(doc), new StreamResult(new FileOutputStream(new File(url))));
 		
 		
 	}
@@ -86,9 +86,18 @@ public class XmlDao {
 				+ "where $x/account='"+ name+"'"+
 				" return $x";
 		XQResultSequence res = xqexpression.executeQuery(str);
+<<<<<<< HEAD
 		if(res.next()){
 			user=Domxml(res.getItemAsString(null));
 			return user;
+=======
+		if(res.next()){user=Domxml(res.getItemAsString(null));
+		
+		return user;
+		}
+		else{
+			return null;
+>>>>>>> ultra
 		}
 		  	return null;
 		//System.out.println(res.getItemAsString(null));
