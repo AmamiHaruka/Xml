@@ -23,6 +23,7 @@ import net.sf.saxon.xqj.SaxonXQDataSource;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import bean.Topic;
 import bean.Users;
 
 public class XmlDao {
@@ -73,7 +74,7 @@ public class XmlDao {
 		users.appendChild(user);
 		Transformer transformer =TransformerFactory.newInstance().newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.transform(new DOMSource(doc), new StreamResult(new FileOutputStream(new File(url))));
+		transformer.transform(new DOMSource(doc), new StreamResult(new File(url)));
 		
 		
 	}
@@ -86,18 +87,9 @@ public class XmlDao {
 				+ "where $x/account='"+ name+"'"+
 				" return $x";
 		XQResultSequence res = xqexpression.executeQuery(str);
-<<<<<<< HEAD
 		if(res.next()){
 			user=Domxml(res.getItemAsString(null));
 			return user;
-=======
-		if(res.next()){user=Domxml(res.getItemAsString(null));
-		
-		return user;
-		}
-		else{
-			return null;
->>>>>>> ultra
 		}
 		  	return null;
 		//System.out.println(res.getItemAsString(null));
@@ -147,4 +139,47 @@ public class XmlDao {
         }
 		
 	}
+	public void Publishtopic(Topic Atopic) throws SAXException, IOException, Exception{
+		Element topics = null;
+		Element topic = null;
+		Element author = null;
+		Element data = null;
+		Element theme = null;
+		Element content = null;
+		Element replynum = null;
+		Element excellent = null;
+		Element top = null;
+		Document doc = initload("./Topic.xml");
+		NodeList nl = doc.getElementsByTagName("topics");
+		topics = (Element)nl.item(0);
+		topic = doc.createElement("topic");
+		author = doc.createElement("author");
+		author.appendChild(doc.createTextNode(Atopic.getAuthor()));
+		topic.appendChild(author);
+		data = doc.createElement("data");
+		data.appendChild(doc.createTextNode(Atopic.getData()));
+		topic.appendChild(data);
+		theme = doc.createElement("theme");
+		theme.appendChild(doc.createTextNode(Atopic.getTheme()));
+		topic.appendChild(theme);
+		content = doc.createElement("content");
+		content.appendChild(doc.createTextNode(Atopic.getContent()));
+		topic.appendChild(content);
+		replynum = doc.createElement("replynum");
+		replynum.appendChild(doc.createTextNode(Atopic.getReplynum()));
+		topic.appendChild(replynum);
+		excellent = doc.createElement("excellent");
+		excellent.appendChild(doc.createTextNode(Atopic.getExcellent()));
+		topic.appendChild(excellent);
+		top = doc.createElement("top");
+		top.appendChild(doc.createTextNode(Atopic.getTop()));
+		topic.appendChild(top);
+		topics.appendChild(topic);
+		Transformer transformer =TransformerFactory.newInstance().newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		transformer.transform(new DOMSource(doc), new StreamResult(new File("./Topic.xml")));
+		
+	}
+
 }
+
