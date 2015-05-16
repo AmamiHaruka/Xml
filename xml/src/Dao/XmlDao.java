@@ -187,7 +187,7 @@ public class XmlDao {
 		transformer.transform(new DOMSource(doc), new StreamResult(new File(Topicurl)));
 		
 	}
-	// »ñµÃÑ¡ÔñÖ÷ÌâµÄ²»Í¬ÖÖÀàµÄÌû×Ó themeid  ÎªÖ÷Ìâ ±àºÅ£¬ tpye ÎªÌû×ÓÖÖÀà±àºÅ 0 ´ú±íÆÕÍ¨Ìù 1´ú±íÖÃ¶¥Ìù
+	//è·å¾—é€‰æ‹©ä¸»é¢˜çš„ä¸åŒç§ç±»çš„å¸–å­ themeid  ä¸ºä¸»é¢˜ ç¼–å·ï¼Œ tpye ä¸ºå¸–å­ç§ç±»ç¼–å· 0 ä»£è¡¨æ™®é€šè´´ 1ä»£è¡¨ç½®é¡¶è´´
 	public List<Topic> GetALLTopic(String themeid,String type) throws SAXException, IOException, Exception{
 		String Topicurl = "./Topic"+themeid+".xml";
 		Element xtopic = null;
@@ -211,7 +211,6 @@ public class XmlDao {
 		}
 		return list;
 	}
-	// ¶ÔÌû×Ó½øĞĞÖÃ¶¥ÉèÖÃ themeid ÎªÌû×ÓËùÊôÖ÷Ìâ±àºÅ £¬ topicID Îª ÒªÉèÖÃÌû×ÓµÄ Ìû×ÓID Type Îª²Ù×÷ÀàĞÍ 0ÎªÈ¡Ïû 1ÎªÉèÖÃ1 operation Îª²Ù×÷ÖÖÀà ¡°top¡± ÎªÖÃ¶¥²Ù×÷ ¡°excellent¡±Îª¼Ó¾«²Ù×÷
 	public boolean Settopic(String themeid,String topicID,String type,String operation) throws SAXException, IOException, Exception{
 		try{
 			String Topicurl = "./Topic"+themeid+".xml";
