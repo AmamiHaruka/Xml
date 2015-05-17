@@ -77,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </nav>
    
     <fieldset style="width:730px; margin:0px auto" >
-  <form class="form-horizontal" role="form" id="registerForm" action="welcome/register.action">
+  <form class="form-horizontal" role="form" id="registerForm" action="welcome/register.action" method="post">
    
   <div class="form-group"  >
   <label for="username" class=" contorl-label">用户名</label>

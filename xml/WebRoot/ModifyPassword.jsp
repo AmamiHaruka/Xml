@@ -58,23 +58,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   <div class="panel-body">
    <fieldset style="width: 550px; margin:0px auto;">
-     <form class="form-horizontal" role="form" action="modify/passwordModify!modifyPassword.action" id="modifyForm">
+     <form class="form-horizontal" role="form" action="modify/passwordModify!modifyPassword.action" id="modifyForm" method="post">
     
      
      <div class="form-group">
      
   		<label for="passwordpre">原始密码</label>
-  		<input type="text" class="form-control"  id="passwordpre" name="passwordpre" onblur="prePassword()"><span id="preError"></span>
+  		<input type="password" class="form-control"  id="passwordpre" name="passwordpre" onblur="prePassword()"><span id="preError"></span>
   	</div>
   	<div class="form-group">
      
   		<label for="passwordpre">密码</label>
-  		<input type="text" class="form-control"  id="password" name="password" onblur="VerifyPwd('#passwordError')"><span id="passwordError"></span>
+  		<input type="password" class="form-control"  id="password" name="password" onblur="VerifyPwd('#passwordError')"><span id="passwordError"></span>
   	</div>
   	<div class="form-group">
      
   		<label for="passwordpre">再次输入密码</label>
-  		<input type="text" class="form-control"  id="repassword" name="repassword" onblur="verifyPassword()"><span id="repwdError"></span>
+  		<input type="password" class="form-control"  id="repassword" name="repassword" onblur="verifyPassword()"><span id="repwdError"></span>
   	</div>
   	<div class="form-group">
   	<input type="button" class="btn btn-primary" onclick="tijiao()" value="提交">

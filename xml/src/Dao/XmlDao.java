@@ -1,5 +1,6 @@
 package Dao;
 
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +26,13 @@ import net.sf.saxon.xqj.SaxonXQDataSource;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import bean.Reply;
 import bean.Topic;
 import bean.Users;
 
 public class XmlDao {
-	String url="C://Users//UltrA//Workspaces//MyEclipse Professional 2014//Web//WebRoot//xml//Users.xml";
+	String userUrl="C://Users//UltrA//Workspaces//MyEclipse Professional 2014//Web//WebRoot//xml//Users.xml";
+	String topicUrl="C://Users//UltrA//Workspaces//MyEclipse Professional 2014//Web//WebRoot//xml//";
 	public Document initload(String url) throws SAXException, IOException, Exception{
 		Document document = null;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -48,7 +51,7 @@ public class XmlDao {
 		Element roleID = null;
 		Element registerTime =null;
 		Element userLevel = null;
-		Document doc = initload(url);
+		Document doc = initload(userUrl);
 		NodeList nl = doc.getElementsByTagName("users");
 		users =(Element)nl.item(0);
 		user = doc.createElement("user");
@@ -76,7 +79,7 @@ public class XmlDao {
 		users.appendChild(user);
 		Transformer transformer =TransformerFactory.newInstance().newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.transform(new DOMSource(doc), new StreamResult(new File(url)));
+		transformer.transform(new DOMSource(doc), new StreamResult(new File(userUrl)));
 		
 		
 	}
@@ -85,7 +88,7 @@ public class XmlDao {
 		XQDataSource xq = new SaxonXQDataSource();
 		XQConnection xqconnection = xq.getConnection();
 		XQExpression xqexpression = xqconnection.createExpression();
-		String str = "for $x in doc('"+url+"')/users/user "
+		String str = "for $x in doc('"+userUrl+"')/users/user "
 				+ "where $x/account='"+ name+"'"+
 				" return $x";
 		XQResultSequence res = xqexpression.executeQuery(str);
@@ -119,7 +122,7 @@ public class XmlDao {
 		try{
 			String name=Auser.getAccount();
 			
-			Document doc = initload(url);
+			Document doc = initload(userUrl);
 			NodeList nl = doc.getElementsByTagName("user");
 			for(int i =0;i<nl.getLength();i++){
 				String username = doc.getElementsByTagName("account").item(i).getFirstChild().getNodeValue();
@@ -129,7 +132,7 @@ public class XmlDao {
 					doc.getElementsByTagName("sex").item(i).getFirstChild().setNodeValue(Auser.getSex());
 					Transformer transformer =TransformerFactory.newInstance().newTransformer();
 					transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-					transformer.transform(new DOMSource(doc), new StreamResult(new File(url)));
+					transformer.transform(new DOMSource(doc), new StreamResult(new File(userUrl)));
 				}
 					
 			}
@@ -152,7 +155,7 @@ public class XmlDao {
 		Element replynum = null;
 		Element excellent = null;
 		Element top = null;
-		String Topicurl = "./Topic"+Aid+".xml";
+		String Topicurl = topicUrl+"Topic"+Aid+".xml";
 		Document doc = initload(Topicurl);
 		NodeList nl = doc.getElementsByTagName("topics");
 		topics = (Element)nl.item(0);
@@ -166,7 +169,7 @@ public class XmlDao {
 		author = doc.createElement("author");
 		author.appendChild(doc.createTextNode(Atopic.getAuthor()));
 		topic.appendChild(author);
-		data = doc.createElement("data");
+		data = doc.createElement("date");
 		data.appendChild(doc.createTextNode(Atopic.getPostTime()));
 		topic.appendChild(data);
 		content = doc.createElement("content");
@@ -187,9 +190,9 @@ public class XmlDao {
 		transformer.transform(new DOMSource(doc), new StreamResult(new File(Topicurl)));
 		
 	}
-	// »ñµÃÑ¡ÔñÖ÷ÌâµÄ²»Í¬ÖÖÀàµÄÌû×Ó themeid  ÎªÖ÷Ìâ ±àºÅ£¬ tpye ÎªÌû×ÓÖÖÀà±àºÅ 0 ´ú±íÆÕÍ¨Ìù 1´ú±íÖÃ¶¥Ìù
+	// ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ themeid  Îªï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å£ï¿½ tpye Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0 ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½
 	public List<Topic> GetALLTopic(String themeid,String type) throws SAXException, IOException, Exception{
-		String Topicurl = "./Topic"+themeid+".xml";
+		String Topicurl = topicUrl+"Topic"+themeid+".xml";
 		Element xtopic = null;
 		List<Topic> list=new ArrayList<Topic>();
 		Document doc = initload(Topicurl);
@@ -201,20 +204,20 @@ public class XmlDao {
 				topic.setId(xtopic.getElementsByTagName("id").item(0).getTextContent());
 				topic.setTitle(xtopic.getElementsByTagName("title").item(0).getTextContent());
 				topic.setAuthor(xtopic.getElementsByTagName("author").item(0).getTextContent());
-				topic.setPostTime(xtopic.getElementsByTagName("data").item(0).getTextContent());
+				topic.setPostTime(xtopic.getElementsByTagName("date").item(0).getTextContent());
 				topic.setContent(xtopic.getElementsByTagName("content").item(0).getTextContent());
 				topic.setReplynum(xtopic.getElementsByTagName("replynum").item(0).getTextContent());
 				topic.setExcellent(xtopic.getElementsByTagName("excellent").item(0).getTextContent());
 				topic.setTop(xtopic.getElementsByTagName("top").item(0).getTextContent());
-				list.add(topic);
+				list.add(0,topic);
 			}
 		}
 		return list;
 	}
-	// ¶ÔÌû×Ó½øÐÐÖÃ¶¥ÉèÖÃ themeid ÎªÌû×ÓËùÊôÖ÷Ìâ±àºÅ £¬ topicID Îª ÒªÉèÖÃÌû×ÓµÄ Ìû×ÓID Type Îª²Ù×÷ÀàÐÍ 0ÎªÈ¡Ïû 1ÎªÉèÖÃ1 operation Îª²Ù×÷ÖÖÀà ¡°top¡± ÎªÖÃ¶¥²Ù×÷ ¡°excellent¡±Îª¼Ó¾«²Ù×÷
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ themeid Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ topicID Îª Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½ID Type Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0ÎªÈ¡ï¿½ï¿½ 1Îªï¿½ï¿½ï¿½ï¿½1 operation Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½topï¿½ï¿½ Îªï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½excellentï¿½ï¿½Îªï¿½Ó¾ï¿½ï¿½ï¿½ï¿½ï¿½
 	public boolean Settopic(String themeid,String topicID,String type,String operation) throws SAXException, IOException, Exception{
 		try{
-			String Topicurl = "./Topic"+themeid+".xml";
+			String Topicurl = topicUrl+"Topic"+themeid+".xml";
 			Document doc = initload(Topicurl);
 			NodeList nl = doc.getElementsByTagName("topic");
 			for(int i = 0;i<nl.getLength();i++){
@@ -236,7 +239,7 @@ public class XmlDao {
 	}
 	public boolean Deletetopic(String themeid ,String topicID) throws SAXException, IOException, Exception{
 		try{
-			String Topicurl = "./Topic"+themeid+".xml";
+			String Topicurl = topicUrl+"Topic"+themeid+".xml";
 			Document doc = initload(Topicurl);
 			NodeList nl = doc.getElementsByTagName("topic");
 			for(int i = 0;i<nl.getLength();i++){
@@ -257,7 +260,7 @@ public class XmlDao {
 	}
 	public boolean Addreplynum(String themeid,String topicID){
 		try{
-			String Topicurl = "./Topic"+themeid+".xml";
+			String Topicurl = topicUrl+"./Topic"+themeid+".xml";
 			Document doc = initload(Topicurl);
 			NodeList nl = doc.getElementsByTagName("topic");
 			for(int i = 0;i<nl.getLength();i++){
@@ -277,6 +280,50 @@ public class XmlDao {
             System.out.println(e.getMessage());
             return false;
 		}
+	}
+	public Topic GetTopic(String themeid,String id) throws SAXException, IOException, Exception{
+		String Topicurl = topicUrl+"Topic"+themeid+".xml";
+		Element xtopic = null;
+		Topic topic = new Topic();
+		List<Topic> list=new ArrayList<Topic>();
+		Document doc = initload(Topicurl);
+		NodeList nl = doc.getElementsByTagName("topic");
+		for(int i = 0 ;i<nl.getLength();i++){
+			
+			xtopic = (Element)nl.item(i);
+			if(xtopic.getElementsByTagName("id").item(0).getTextContent().equals(id)){
+				
+				topic.setId(xtopic.getElementsByTagName("id").item(0).getTextContent());
+				topic.setTitle(xtopic.getElementsByTagName("title").item(0).getTextContent());
+				topic.setAuthor(xtopic.getElementsByTagName("author").item(0).getTextContent());
+				topic.setPostTime(xtopic.getElementsByTagName("date").item(0).getTextContent());
+				topic.setContent(xtopic.getElementsByTagName("content").item(0).getTextContent());
+				topic.setReplynum(xtopic.getElementsByTagName("replynum").item(0).getTextContent());
+				topic.setExcellent(xtopic.getElementsByTagName("excellent").item(0).getTextContent());
+				topic.setTop(xtopic.getElementsByTagName("top").item(0).getTextContent());
+				
+			}
+		}
+		return topic;
+	}
+	public List<Reply> GetReply(String themeid,String id) throws SAXException, IOException, Exception{
+		String Replyurl = "C://Users//UltrA/Workspaces//MyEclipse Professional 2014//Web//WebRoot//xml//Message.xml";
+		Element reply = null;
+		Reply re=new Reply();
+		List<Reply> list=new ArrayList<Reply>();
+		Document doc = initload(Replyurl);
+		NodeList nl = doc.getElementsByTagName("reply");
+		for(int i = 0 ;i<nl.getLength();i++){
+			
+			reply = (Element)nl.item(i);
+			if(reply.getElementsByTagName("id").item(0).getTextContent().equals(id)){
+				re.setRname(reply.getElementsByTagName("rname").item(0).getTextContent());
+				re.setDate(reply.getElementsByTagName("date").item(0).getTextContent());
+				re.setContent(reply.getElementsByTagName("content").item(0).getTextContent());
+				list.add(re);
+			}
+		}
+		return list;
 	}
 }
 

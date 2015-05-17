@@ -106,6 +106,7 @@ public class VerifyAction extends ActionSupport implements SessionAware{
 	public String loginVerify() throws Exception{
 		ServletResponse response= ServletActionContext.getResponse();
 		XmlDao xml=new XmlDao();
+		
 		try {
 			PrintWriter out=response.getWriter();
 			if(xml.FindUser(username)==null){

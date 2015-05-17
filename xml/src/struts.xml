@@ -1,40 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
+<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+<constant name="locale" value="zh_CN"></constant>
 	<package name="welcome" extends="struts-default" namespace="/welcome">
 		<action name="toRegister" class="action.WelcomeAction" method="toRegister">
 			<result name="toRegister">/Register.jsp</result>
 		</action>
 		<action name="register" class="action.WelcomeAction" method="register">
-			<result name="register" type="redirect">/main.jsp</result>
+			<result name="register" type="redirect">showTopics.action?themeID=1</result>
+		</action>
+		<action name="showTopics" class="action.WelcomeAction" method="showTopics">
+			<result>/main.jsp</result>
 		</action>
 		<action name="login" class="action.WelcomeAction" method="login">
-			<result name="login" type="redirect">/main.jsp</result>
-			
-		</action>
-		
+			<result name="login" type="redirect">showTopics.action?themeID=1</result>			
+		</action>		
 		<action name="sightseer" class="action.WelcomeAction" method="sightseer">
-			<result name="sightseer">/main.jsp</result>
-		</action>
-		
+			<result name="sightseer" type="redirect">showTopics.action?themeID=1</result>
+		</action>		
 	</package>
+	
 	<package name="modify" extends="struts-default" namespace="/modify">
 		<interceptors>
 			<interceptor name="authentication" class="intercepters.LoginInter"></interceptor>
 		</interceptors>
 		
 		<action name="personModify" class="action.ModifyAction">
+		<interceptor-ref name="authentication"></interceptor-ref>
+		<interceptor-ref name="defaultStack"></interceptor-ref>
 		<result name="login">/index.jsp</result>
 		<result name="toModify">/modify.jsp</result>
 		<result name="toModifyPassword">/ModifyPassword.jsp</result>
-		<result name="infosuccess" type="redirect">/main.jsp</result>
-		<interceptor-ref name="authentication"></interceptor-ref>
-		<interceptor-ref name="defaultStack"></interceptor-ref>
-		</action>
+		<result name="infosuccess" type="redirect">/welcome/showTopics.action?themeID=1</result>
 		
+		</action>
 		<action name="passwordModify" class="action.PasswordModifyAction">
-			<result name="passwordSuccess">/main.jsp</result>
-			<interceptor-ref name="authentication"></interceptor-ref>
+		<interceptor-ref name="authentication"></interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="passwordSuccess" type="redirect">/welcome/showTopics.action?themeID=1</result>
+			
 		<interceptor-ref name="defaultStack"></interceptor-ref>
 		</action>
 		
@@ -48,4 +53,72 @@
 		<action name="pwdVerify" class="action.VerifyAction" method="pwdVerify"></action>
 	</package>
 	
+	<package name="post" extends="struts-default" namespace="/post">
+		<interceptors>
+			<interceptor name="authentication" class="intercepters.LoginInter"></interceptor>
+		</interceptors>
+		<action name="titleVerify" class="action.PostAction" method="verifyTitle"></action>
+		<action name="contentVerify" class="action.PostAction" method="verifyContent"></action>
+		<action name="post" class="action.PostAction" method="post">
+			<interceptor-ref name="authentication"></interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="post" type="redirect">/welcome/showTopics.action?themeID=${themeID}</result>
+			<result name="login" type="redirect">/welcome/showTopics.action?themeID=1</result>
+		</action>
+		<action name="toPost" class="action.PostAction" method="toPost">
+		<interceptor-ref name="authentication"></interceptor-ref>
+		<interceptor-ref name="defaultStack"></interceptor-ref>
+		<result>/Post.jsp</result>
+		<result name="login" type="redirect">/welcome/showTopics.action?themeID=1</result>
+		</action>
+	</package>
+	
+	<package name="reply" extends="struts-default" namespace="/reply">
+	<interceptors>
+			<interceptor name="authentication" class="intercepters.LoginInter"></interceptor>
+		</interceptors>
+		<action name="toReply" class="action.ReplyAction" method="toReply">
+			
+			<result name="toReply">/Message.jsp</result>
+		</action>
+		<action name="showReplys" class="action.ReplyAction" method="showReplys">
+			<result>/Message.jsp</result>
+		</action>
+		<action name="reply" class="action.ReplyAction" method="reply">
+			
+			<result type="redirect">showReplys.action?themeID=${themeID }&amp;topicID=${topicID }</result>
+			<result name="login" type="redirect">/welcome/showTopics.action?themeID=1</result>
+		</action>
+	</package>
+		
+	<package name="root" extends="struts-default" namespace="/root">
+	<interceptors >
+		<interceptor name="rootAuthentic" class="intercepters.RootInter"></interceptor>
+	</interceptors>
+		<action name="delete" class="action.RootAction" method="delete">
+			<interceptor-ref name="rootAuthentic"></interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="delete" type="redirect">/welcome/showTopics.action?themeID=${themeID}</result>
+		</action>
+		<action name="top" class="action.RootAction" method="top">
+			<result type="redirect">/welcome/showTopics.action?themeID=${themeID}</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="rootAuthentic"></interceptor-ref>
+		</action>
+		<action name="detop" class="action.RootAction" method="detop">
+			<result type="redirect">/welcome/showTopics.action?themeID=${themeID}</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="rootAuthentic"></interceptor-ref>
+		</action>
+		<action name="excellent" class="action.RootAction" method="excellent">
+			<result type="redirect">/welcome/showTopics.action?themeID=${themeID}</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="rootAuthentic"></interceptor-ref>
+		</action>
+		<action name="deExcellent" class="action.RootAction" method="deExcellent">
+			<result type="redirect">/welcome/showTopics.action?themeID=${themeID}</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="rootAuthentic"></interceptor-ref>
+		</action>
+	</package>
 </struts>    

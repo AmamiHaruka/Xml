@@ -1,57 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <users>
    <user>
-      <account>root</account>
+      <account>Administrator</account>
       <pw>123456</pw>
-      <email>null</email>
-      <sex>null</sex>
+      <email>1123@outlook.com</email>
+      <sex>male</sex>
       <userlevel>SSS</userlevel>
-      <role_id>admin</role_id>
+      <role_id>root</role_id>
       <reg_tm>2015-5-6</reg_tm>
    </user>
    <user>
       <account>dps</account>
       <pw>1</pw>
-      <email>11111@qq.com</email>
+      <email>2111q@qq.com</email>
       <sex>female</sex>
       <userlevel>A</userlevel>
-      <role_id>user</role_id>
+      <role_id>root</role_id>
       <reg_id>2015-5-6</reg_id>
    </user>
    <user>
-      <account>12</account>
+      <account>warman001</account>
       <pw>123</pw>
-      <email>123</email>
+      <email>333</email>
       <sex>male</sex>
       <userlevel>F</userlevel>
       <role_id>common</role_id>
-      <reg_id>2015-05-14 10:41:53</reg_id>
+      <reg_id>2015-05-15 12:48:11</reg_id>
    </user>
    <user>
       <account>nanshen</account>
-      <pw>123</pw>
-      <email>12345678</email>
+      <pw>nanshendio</pw>
+      <email>qweq@ou.com</email>
       <sex>male</sex>
       <userlevel>F</userlevel>
       <role_id>common</role_id>
-      <reg_id>2015-05-14 15:52:18</reg_id>
-   </user>
-   <user>
-      <account>111</account>
-      <pw>123</pw>
-      <email>123@qq.com</email>
-      <sex>male</sex>
-      <userlevel>F</userlevel>
-      <role_id>common</role_id>
-      <reg_id>2015-05-15 00:30:33</reg_id>
-   </user>
-   <user>
-      <account>1114</account>
-      <pw>1112</pw>
-      <email>11</email>
-      <sex>female</sex>
-      <userlevel>F</userlevel>
-      <role_id>common</role_id>
-      <reg_id>2015-05-15 00:32:56</reg_id>
+      <reg_id>2015-05-17 22:32:24</reg_id>
    </user>
 </users>

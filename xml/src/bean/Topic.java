@@ -69,4 +69,7 @@ public class Topic {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public String toString(){
+		return author+" "+title+" "+postTime+" "+id;
+	}
 }

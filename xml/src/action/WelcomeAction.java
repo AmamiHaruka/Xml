@@ -3,7 +3,9 @@ package action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
@@ -15,8 +17,10 @@ import net.sf.saxon.functions.Data;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
+import org.xml.sax.SAXException;
 
 import Dao.XmlDao;
+import bean.Topic;
 import bean.Users;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -29,6 +33,9 @@ public class WelcomeAction extends ActionSupport implements SessionAware{
 	String email;
 	String sex;
 	Map<String,Object> session;
+	List<Topic> topicsCommon;
+	List<Topic> topicsTop;
+	
 	
 	public String register() throws TransformerFactoryConfigurationError, Exception{
 		XmlDao xml=new XmlDao();
@@ -43,6 +50,7 @@ public class WelcomeAction extends ActionSupport implements SessionAware{
 		user.setRegisterTime(df.format(new Date()));
 		xml.CreateUser(user);
 		session.put("username", username);
+		session.put("role", "common");
 		//System.out.println(user.toString());
 		
 		return "register";
@@ -52,12 +60,12 @@ public class WelcomeAction extends ActionSupport implements SessionAware{
 		return "toRegister";
 		
 	}
-	public String login() throws IOException{
-		ActionContext actionContext=ActionContext.getContext();
-		Map<String, Object> session=actionContext.getSession();
+	public String login() throws Exception{
 		//System.out.println("username:"+username);
 		session.put("username", username);
-		
+		XmlDao xml=new XmlDao();
+		session.put("role", xml.FindUser(username).getRoleID());
+	
 		return "login";
 
 	}
@@ -68,7 +76,18 @@ public class WelcomeAction extends ActionSupport implements SessionAware{
 	public String sightseer(){
 		return "sightseer";
 	}
-	
+	public String showTopics() throws SAXException, IOException, Exception{
+		ServletRequest request= ServletActionContext.getRequest();
+		String themeID=request.getParameter("themeID");
+		XmlDao xml=new XmlDao();
+		topicsCommon=xml.GetALLTopic(themeID, "0");
+		
+		topicsTop=xml.GetALLTopic(themeID, "1");
+		
+		request.setAttribute("topics", topicsCommon);
+		request.setAttribute("topicsTop", topicsTop);
+		return SUCCESS;
+	}
 	
 	
 	
@@ -108,6 +127,12 @@ public class WelcomeAction extends ActionSupport implements SessionAware{
 	}
 	public void setSex(String sex) {
 		this.sex = sex;
+	}
+	public List<Topic> getTopics() {
+		return topicsCommon;
+	}
+	public void setTopics(List<Topic> topics) {
+		this.topicsCommon = topics;
 	}
 	
 }

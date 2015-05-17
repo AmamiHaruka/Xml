@@ -66,7 +66,7 @@ function tijiao(){
   </div>
   <div class="panel-body">
    <fieldset style="width: 550px; margin:0px auto;">
-     <form class="form-horizontal"  action="modify/personModify!modifyInfo.action" id="modifyForm">
+     <form class="form-horizontal"  action="modify/personModify!modifyInfo.action" id="modifyForm" method="post">
      <div class="form-group">
      
      <label for="sex">性别</label>
