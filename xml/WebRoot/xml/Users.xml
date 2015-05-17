@@ -36,4 +36,13 @@
       <role_id>common</role_id>
       <reg_id>2015-05-17 22:32:24</reg_id>
    </user>
+   <user>
+      <account>chenquanbao</account>
+      <pw>123</pw>
+      <email>bababba@qq.com</email>
+      <sex>male</sex>
+      <userlevel>F</userlevel>
+      <role_id>common</role_id>
+      <reg_id>2015-05-17 23:27:27</reg_id>
+   </user>
 </users>

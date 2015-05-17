@@ -112,7 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	</select>
   	</div>
   	<div class="form-group">
-  	<textarea rows="3" cols="" class="form-control" name="content" id="content" onblur="contentVerify()"></textarea>
+  	<textarea rows="10" cols="" class="form-control" name="content" id="content" onblur="contentVerify()"></textarea>
   	<p id="contentError" style="height: 20px"></p>
   	
   	</div>
