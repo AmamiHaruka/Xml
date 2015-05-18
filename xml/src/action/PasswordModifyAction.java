@@ -20,56 +20,7 @@ public class PasswordModifyAction extends ActionSupport implements SessionAware{
 	String passwordpre;
 	String repassword;
 	Map<String,Object> session;
-	/*
-	 * 验证新密码
-	 */
-	public String pwdVerify(){
-		ServletResponse response= ServletActionContext.getResponse();
-		//System.out.println(password);
-		try {
-			PrintWriter out=response.getWriter();
-			if(password.equals("")){
-				out.print(0);
-				return null;
-			}else{
-				out.print(2);
-				return null;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	/*
-	 * 原密码验证
-	 */
-	public String passwordVerify(){
-		ServletResponse response= ServletActionContext.getResponse();
-		XmlDao xml=new XmlDao();
-		
-		try {
-			PrintWriter out=response.getWriter();
-			Users user=xml.FindUser((String)session.get("username"));
-			
-			if(user.getPw().equals(passwordpre)){
-				out.print(2);
-				return null;
-			}else{
-				out.print(1);
-				return null;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
-		
-	}
+	
 	/*
 	 * 进行密码的修改
 	 */
@@ -82,34 +33,7 @@ public class PasswordModifyAction extends ActionSupport implements SessionAware{
 		return "passwordSuccess";
 		
 	}
-	/*
-	 * 验证第二次输入新密码
-	 */
-	public String repasswordVerify(){
-		ServletResponse response= ServletActionContext.getResponse();
-		ServletRequest request=ServletActionContext.getRequest();
-		//repassword=request.getParameter("repassword");
-		//System.out.println(password+"  "+repassword);
-		try {
-			PrintWriter out=response.getWriter();
-			if(repassword.equals("")){
-				out.print(0);
-				return null;
-			}
-			else if(password.equals(repassword)){
-				out.print(2);
-				return null;
-			} else{
-				out.print(3);
-				return null;
-			}
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+	
 	public String getPassword() {
 		return password;
 	}

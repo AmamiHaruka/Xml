@@ -14,7 +14,7 @@ public class LoginInter extends AbstractInterceptor {
 		ActionContext actionContext=arg0.getInvocationContext();
 		Map<String, Object> session=actionContext.getSession();
 		String account=(String) session.get("username");
-		System.out.println("account:"+account);
+		//System.out.println("account:"+account);
 		if(account==null){
 			return "login";
 		}else{

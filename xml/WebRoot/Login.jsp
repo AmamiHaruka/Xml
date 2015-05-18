@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
      
-     <form class="form-horizontal" role="form">
+     <form class="form-horizontal" role="form" method="post" action="welcome/login.action">
      <fieldset style="width:730px; margin:0px auto" >
      <div class="form-group">
      <label class=" label-control  " for="username">用户名：</label>
@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
      </div>
       
-     <button class="btn btn-info" type="submit">Login</button>
+     <button class="btn btn-info" onclick="login()">Login</button>
      </fieldset>
      </form>
      

@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <!--<link rel="stylesheet" href="stylesheets/bootstrap-responsive.css">  --> 
     <base href="<%=basePath%>">
     
-    <title>My JSP 'index.jsp' starting page</title>
+    <title>超级论坛</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -70,8 +70,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
      <span>
      <div class="hello-unit col-lg-9">
- 	 <h1>欢迎来到 Microblog</h1>
-  	<p>Microblog 是一个基于 Node.js 的微博系统。</p>
+ 	 <h1>欢迎来到 超级论坛</h1>
+  	<p>超级论坛 是一个基于Java 论坛系统。</p>
    
     </div>
     <div class="form col-lg-2 ">

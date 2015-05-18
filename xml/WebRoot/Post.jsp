@@ -4,12 +4,11 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'Post.jsp' starting page</title>
+    <title>发帖</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -23,7 +22,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	<link rel="stylesheet" href="Flat-UI-master/Flat-UI-master/dist/css/flat-ui.css">
     <script src="bootstrap/bootstrap/js/jquery-1.11.2.js"></script>
     <script src="bootstrap/bootstrap/js/bootstrap.js"></script>
-	
+	<script >
+	var titleResult=0,contentResult=0;
+		function verifyTitle(){
+		var data={title:$("#title").val()}
+			$.post("post/titleVerify.action",data,function(result){
+				if(result==0){
+					$("#titleError").text("Title can't be Empty!").css("color","red");
+				}else{
+					$("#titleError").text("Ok").css("color","green");
+				}
+				titleResult=result;
+			});
+		}
+		function contentVerify()
+		{
+			var data={content:$("#content").val()};
+			$.post("post/contentVerify.action",data,function(result){
+				if(result==0){
+					$("#contentError").text("Content can't be Empty!").css("color","red");
+				}else{
+					$("#contentError").text("Ok").css("color","green");
+				}
+				contentResult=result;
+			});
+		}
+		function tijiao(){
+			verifyTitle();
+			contentVerify();
+			if(contentResult==2&&titleResult==2){
+				$("#postForm").submit();
+			}
+		}
+		var themeID="${param.themeID}";
+		$(document).ready(function(){
+			$("[value="+themeID+"]").attr("selected","selected");
+		});
+	</script>
 
   </head>
   
@@ -39,8 +74,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	
   	<a href="#" class="dropdown-toggle" data-toggle="dropdown">论坛主题<b class="caret"></b></a>
   	<ul class="dropdown-menu">
-  	<li><a href="#">smart</a></li>
-  	<li><a href="#">ssss</a>
+  	<li><a href="welcome/showTopics.action?themeID=1">男神的世界</a></li>
+  	<li><a href="welcome/showTopics.action?themeID=2">教授讲武堂</a></li>
+  	<li><a href="welcome/showTopics.action?themeID=3">宝宝新科技</a></li>
+  	<li><a href="welcome/showTopics.action?themeID=4">我爱毛主席</a></li>
+  	<li><a href="welcome/showTopics.action?themeID=5">最炫民族风</a></li>
   	<li class="divider"></li>
   	</ul>
   	</li>
@@ -57,28 +95,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   </nav>
        
-  <form class="form-horizontal">
+  <form class="form-horizontal" id="postForm" action="post/post.action" method="post">
    <fieldset style="width:730px; margin:0px auto" >
   	<div class="form-group">
   	<label for="title">标题</label>
-  	<input type="text" class="form-control" id="title" placetitle="请输入标题">
+  	<input type="text" class="form-control" id="title" placetitle="请输入标题" name="title" onblur="verifyTitle()"><span id="titleError"></span>
   	</div>
   	<div class="form-group">
   	<label for="theme">主题</label>
-  	<select   class="form-control"><
-  	<option>灌水乐园</option>
-  	<option>技术交流</option>
-  	<option>健身养生</option>
-  	<option>娱乐休闲</option>>
-  	<option>生活服务</option>
-  	<option>个人站点</option>
+  	<select   class="form-control" name="themeID"><
+  	<option value="1" >男神的世界</option>
+  	<option value="2" >教授讲武堂</option>
+  	<option value="3">宝宝新科技</option>>
+  	<option value="4">我爱毛主席</option>
+  	<option value="5">最炫民族风</option>
   	</select>
   	</div>
   	<div class="form-group">
-  	<textarea rows="3" cols="" class="form-control"></textarea>
+  	<textarea rows="10" cols="" class="form-control" name="content" id="content" onblur="contentVerify()"></textarea>
+  	<p id="contentError" style="height: 20px"></p>
   	
   	</div>
-  	<button class="btn btn-info" type="submit">发布</button>
+  	<input class="btn btn-info" type="button" onclick="tijiao()" value="发布" >
    
   	</form>
   </body>
